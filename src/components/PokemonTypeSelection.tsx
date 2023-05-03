@@ -6,7 +6,7 @@ type PokemonTypeSelectionProps = {
 
 const PokemonTypeSelection = ({
   //   selectedType,
-  //   selectType,
+  selectType,
   types,
 }: PokemonTypeSelectionProps) => {
   return (
@@ -15,7 +15,9 @@ const PokemonTypeSelection = ({
         Type?
       </option>
       {types.map((type) => (
-        <option key={type}>{type}</option>
+        <option key={type} onClick={(e) => selectType(e.currentTarget.value)}>
+          {type}
+        </option>
       ))}
     </select>
   );

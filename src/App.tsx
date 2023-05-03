@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-// import PokemonTypeSelection from './components/PokemonTypeSelection';
-import PokedexTable from './components/PokedexTable';
+import PokemonTypeSelection from './components/PokemonTypeSelection';
+// import PokedexTable from './components/PokedexTable';
+import FilterablePokedexTable from './components/FilterablePokedexTable';
 import './App.css';
 
 // Necessary data shape
@@ -18,8 +19,8 @@ import './App.css';
 //   selectedType: string | undefined;
 //   selectType: (type: string | undefined) => void;
 // }
-// Create a <FilterablePokedexTable /> that renders both <PokemonTypeSelection /> and <PokedexTable /> that displays Pokemon with selected type
 
+// Create a <FilterablePokedexTable /> that renders both <PokemonTypeSelection /> and <PokedexTable /> that displays Pokemon with selected type
 type Type = {
   name: string;
   url?: string;
@@ -54,8 +55,8 @@ type Result = {
 
 function App() {
   const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
-  const [types, setTypes] = useState<Array<string>>([]);
-  // const [selectedType, setSelectedType] = useState(undefined);
+  const [types, setTypes] = useState<Array<string>>(['all']);
+  const [selectedType, setSelectedType] = useState<string | undefined>('all');
 
   useEffect(() => {
     const pokeData = async () => {
@@ -69,6 +70,7 @@ function App() {
         })
         .catch((error) => console.log(error));
 
+      // Promise.all to retain order of pokemon when refetching for 'metadata'
       const data = await Promise.all(requests).then((data) => {
         return data.map((pokemon) => {
           return {
@@ -88,13 +90,17 @@ function App() {
         return data.results.map((type: Type) => type.name);
       });
 
-      setTypes(data);
+      // buggy
+      if (types.length > 1) return;
+      setTypes([types, ...data]);
     };
     pokeData();
     getTypes();
   }, []);
 
-  // const selectType =
+  const selectType = (value: string | undefined) => {
+    setSelectedType(value);
+  };
 
   return (
     <>
@@ -102,18 +108,17 @@ function App() {
         <div className='flex-1'>
           <a className='btn-ghost btn text-xl normal-case'>Pokedex</a>
         </div>
-        {/* <PokemonTypeSelection selectedType={selectedType} types={types} /> */}
-        <select className='select-primary select w-full max-w-xs'>
-          <option disabled selected>
-            Type?
-          </option>
-          {types.map((type) => (
-            <option key={type}>{type}</option>
-          ))}
-        </select>
+        <PokemonTypeSelection
+          selectedType={selectedType}
+          selectType={selectType}
+          types={types}
+        />
       </div>
-      {/* <p>{selectedType}</p> */}
-      <PokedexTable pokemonList={pokemons} />
+
+      <FilterablePokedexTable
+        selectedType={selectedType}
+        pokemonList={pokemons}
+      />
     </>
   );
 }

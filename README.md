@@ -12,7 +12,7 @@ Using Daisy UI for quick prototyping, although, not best for accessibility (from
 
 [] 1st iteration - useEffect, useState, prop drilling ( probably solution I'd use in constraints of an actual interview)
 
-[] 2nd iteration - custom hook
+[] 2nd iteration - custom hook / context api
 
 [] 3rd iteration - Redux Toolkit / RTK Query or React Query
 
