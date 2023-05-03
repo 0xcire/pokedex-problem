@@ -10,14 +10,15 @@ const PokemonTypeSelection = ({
   types,
 }: PokemonTypeSelectionProps) => {
   return (
-    <select className='select-primary select w-full max-w-xs'>
+    <select
+      className='select-primary select w-full max-w-xs'
+      onChange={(e) => selectType(e.target.value)}
+    >
       <option disabled selected>
         Type?
       </option>
       {types.map((type) => (
-        <option key={type} onClick={(e) => selectType(e.currentTarget.value)}>
-          {type}
-        </option>
+        <option key={type}>{type}</option>
       ))}
     </select>
   );
