@@ -11,7 +11,7 @@ const PokemonTypeSelection = ({
 }: PokemonTypeSelectionProps) => {
   return (
     <select
-      className='select-primary select w-full max-w-xs'
+      className='select-primary select w-6/12 lg:w-full lg:max-w-xs'
       onChange={(e) => selectType(e.target.value)}
     >
       <option disabled selected>
