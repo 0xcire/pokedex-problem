@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import PokemonTypeSelection from './components/PokemonTypeSelection';
+// import PokemonTypeSelection from './components/PokemonTypeSelection';
 import PokedexTable from './components/PokedexTable';
 import './App.css';
 
@@ -55,7 +55,7 @@ type Result = {
 function App() {
   const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
   const [types, setTypes] = useState<Array<string>>([]);
-  const [selectedType, setSelectedType] = useState(undefined);
+  // const [selectedType, setSelectedType] = useState(undefined);
 
   useEffect(() => {
     const pokeData = async () => {
@@ -102,15 +102,15 @@ function App() {
         <div className='flex-1'>
           <a className='btn-ghost btn text-xl normal-case'>Pokedex</a>
         </div>
-        <PokemonTypeSelection selectedType={selectedType} types={types} />
-        {/* <select className='select-primary select w-full max-w-xs'>
+        {/* <PokemonTypeSelection selectedType={selectedType} types={types} /> */}
+        <select className='select-primary select w-full max-w-xs'>
           <option disabled selected>
             Type?
           </option>
           {types.map((type) => (
             <option key={type}>{type}</option>
           ))}
-        </select> */}
+        </select>
       </div>
       {/* <p>{selectedType}</p> */}
       <PokedexTable pokemonList={pokemons} />

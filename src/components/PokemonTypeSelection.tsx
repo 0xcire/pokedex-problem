@@ -5,8 +5,8 @@ type PokemonTypeSelectionProps = {
 };
 
 const PokemonTypeSelection = ({
-  selectedType,
-  selectType,
+  //   selectedType,
+  //   selectType,
   types,
 }: PokemonTypeSelectionProps) => {
   return (
