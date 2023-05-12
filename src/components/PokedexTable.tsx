@@ -20,7 +20,6 @@ const PokedexTable = ({ pokemonList }: PokedexTableProps) => {
         </thead>
         <tbody className='text-center'>
           {pokemonList.map((pokemon) => (
-            // pokemon.types.includes('') &&
             <PokemonRow
               key={`${pokemon.id}-${pokemon.name}`}
               id={pokemon.id}

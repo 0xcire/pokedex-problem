@@ -8,7 +8,7 @@ const NotFound = () => {
         <img
           className='mx-auto h-[96px] w-auto'
           src='https://i.imgflip.com/1n2sc4.jpg'
-          alt=''
+          alt='whos-that-pokemon?!'
         />
       </td>
     </tr>

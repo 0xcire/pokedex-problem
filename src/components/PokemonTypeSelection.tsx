@@ -1,7 +1,7 @@
 type PokemonTypeSelectionProps = {
   selectedType: string | undefined;
   selectType: (type: string | undefined) => void;
-  types: Array<string>;
+  types: Array<string> | undefined;
 };
 
 const PokemonTypeSelection = ({
@@ -17,7 +17,7 @@ const PokemonTypeSelection = ({
       <option disabled selected>
         Type?
       </option>
-      {types.map((type) => (
+      {types?.map((type) => (
         <option key={type}>{type}</option>
       ))}
     </select>

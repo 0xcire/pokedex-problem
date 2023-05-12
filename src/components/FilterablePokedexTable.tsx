@@ -6,6 +6,7 @@ import { Pokemon } from '../App';
 type PokedexTableProps = {
   pokemonList: Array<Pokemon>;
   selectedType: string | undefined;
+  loading?: boolean;
 };
 
 const FilterablePokedexTable = ({

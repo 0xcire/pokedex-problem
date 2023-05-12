@@ -8,9 +8,32 @@ Having gained familiarity with TypeScript / React, and building Rest APIs in Exp
 
 Using Daisy UI for quick prototyping, although, not best for accessibility (from what I remember)
 
+## Requirements
+
+```const pokemon = {
+  id: 'id',
+  name: 'Bulbasaur',
+  types: ['grass', 'fairy'],
+  spite: 'imgURL',
+};
+```
+
+1. Create a `<PokemonRow />` component that takes in ^ object and renders row
+2. Create a `<PokedexTable />` component that takes in array and renders all pokemon in array
+3. Create a `<PokemonTypeSelection />` component with following props:
+
+```
+   type PokemonTypeSelectionProps = {
+   selectedType: string | undefined;
+   selectType: (type: string | undefined) => void;
+   }
+```
+
+4. Create a `<FilterablePokedexTable />` that renders both `<PokemonTypeSelection />` and `<PokedexTable />` that displays Pokemon with selected type
+
 ## plan
 
-[] 1st iteration - useEffect, useState, prop drilling ( probably solution I'd use in constraints of an actual interview)
+- [x] 1st iteration - useEffect, useState, prop drilling ( probably solution I'd use in constraints of an actual interview)
 
 [] 2nd iteration - custom hook / context api
 

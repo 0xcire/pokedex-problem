@@ -1,76 +1,85 @@
 import { useEffect, useState } from 'react';
+
+import { PuffLoader } from 'react-spinners';
+
 import PokemonTypeSelection from './components/PokemonTypeSelection';
-// import PokedexTable from './components/PokedexTable';
 import FilterablePokedexTable from './components/FilterablePokedexTable';
+
 import './App.css';
 
-// Necessary data shape
-// const pokemon = {
-//   id: 'id',
-//   name: 'Bulbasaur',
-//   types: ['grass', 'fairy'],
-//   spite: 'imgURL',
-// };
-
-// 1. Create a <PokemonRow /> component that takes in ^ object and renders row
-// 2. Create a <PokedexTable /> component that takes in array and renders all pokemon in array
-// 3. Create a <PokemonTypeSelection /> component with following props:
-// type PokemonTypeSelectionProps = {
-//   selectedType: string | undefined;
-//   selectType: (type: string | undefined) => void;
-// }
-
-// Create a <FilterablePokedexTable /> that renders both <PokemonTypeSelection /> and <PokedexTable /> that displays Pokemon with selected type
-type Type = {
+type TypeData = {
   name: string;
   url?: string;
 };
 
-type Types = {
+type PokemonTypes = {
   slot: number;
-  type: Type;
+  type: TypeData;
 };
 
-// not holistic typing
+// not exactly holistic typing
 type Sprites = Record<string, string>;
 
 export type FetchedPokemon = {
   id: number;
   name: string;
-  types: Array<Types>;
+  types: Array<PokemonTypes>;
   sprites: Sprites;
 };
 
-export interface Pokemon {
+export type Pokemon = {
   id: number;
   name: string;
   types: Array<string>;
   sprite: string;
-}
+};
 
 type Result = {
   name: string;
   url: string;
 };
 
+const styleOverrides = {
+  margin: '50% auto 0 auto',
+};
+
 function App() {
+  const [loading, setLoading] = useState<boolean>(false);
   const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
   const [types, setTypes] = useState<Array<string>>(['all']);
   const [selectedType, setSelectedType] = useState<string | undefined>('all');
 
+  const selectType = (value: string | undefined) => {
+    setSelectedType(value);
+  };
+
   useEffect(() => {
-    const pokeData = async () => {
+    const controller = new AbortController();
+    const { signal } = controller;
+
+    const fetchPokemonData = async () => {
+      setLoading(true);
       const requests: Array<Promise<FetchedPokemon>> = [];
-      await fetch('https://pokeapi.co/api/v2/pokemon/')
+
+      //1280 total pokemon: for pagination later
+      await fetch('https://pokeapi.co/api/v2/pokemon/?limit=20&offset=0', {
+        signal,
+      })
         .then((res) => res.json())
         .then((data) => {
           data.results.forEach((result: Result) => {
             requests.push(fetch(result.url).then((res) => res.json()));
           });
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          if (error.name === 'AbortError') {
+            console.error('initial fetchPokemonData request cancelled');
+          } else {
+            console.error(error);
+          }
+        });
 
-      // Promise.all to retain order of pokemon when refetching for 'metadata'
+      // ensures same order of pokemon when refetching for 'metadata' just how responses are structured
       const data = await Promise.all(requests).then((data) => {
         return data.map((pokemon) => {
           return {
@@ -81,26 +90,43 @@ function App() {
           };
         });
       });
+
+      setLoading(false);
       setPokemons(data);
     };
 
-    const getTypes = async () => {
-      const response = await fetch('https://pokeapi.co/api/v2/type/');
-      const data = await response.json().then((data) => {
-        return data.results.map((type: Type) => type.name);
-      });
+    fetchPokemonData();
 
-      // buggy
-      if (types.length > 1) return;
-      setTypes([types, ...data]);
-    };
-    pokeData();
-    getTypes();
+    return () => controller.abort();
   }, []);
 
-  const selectType = (value: string | undefined) => {
-    setSelectedType(value);
-  };
+  useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+    if (types.length === 1) {
+      const fetchPokemonTypes = async () => {
+        try {
+          const response = await fetch('https://pokeapi.co/api/v2/type/', {
+            signal,
+          });
+          const data = await response.json();
+          const pokemonTypes = data.results.map((type: TypeData) => type.name);
+
+          setTypes((prevTypes) => [...prevTypes, ...pokemonTypes]);
+        } catch (error) {
+          if (error instanceof DOMException) {
+            console.error('fetchPokemonTypes cancelled');
+          } else {
+            console.error(error);
+          }
+        }
+      };
+
+      fetchPokemonTypes();
+    }
+
+    return () => controller.abort();
+  }, [types.length]);
 
   return (
     <>
@@ -115,10 +141,19 @@ function App() {
         />
       </div>
 
-      <FilterablePokedexTable
-        selectedType={selectedType}
-        pokemonList={pokemons}
-      />
+      {!loading ? (
+        <FilterablePokedexTable
+          selectedType={selectedType}
+          pokemonList={pokemons}
+          loading={loading}
+        />
+      ) : (
+        <PuffLoader
+          color={'#fff'}
+          cssOverride={styleOverrides}
+          loading={loading}
+        />
+      )}
     </>
   );
 }
