@@ -40,7 +40,7 @@ type Result = {
 };
 
 const styleOverrides = {
-  margin: '50% auto 0 auto',
+  margin: '45% auto 0 auto',
 };
 
 function App() {
@@ -103,6 +103,7 @@ function App() {
   useEffect(() => {
     const controller = new AbortController();
     const { signal } = controller;
+
     if (types.length === 1) {
       const fetchPokemonTypes = async () => {
         try {
@@ -130,30 +131,39 @@ function App() {
 
   return (
     <>
-      <div className='navbar bg-base-100'>
-        <div className='flex-1'>
-          <a className='btn-ghost btn text-xl normal-case'>Pokedex</a>
+      <div className='2xl:mx-auto 2xl:w-7/12'>
+        <div className='navbar bg-base-100'>
+          <div className='flex-1'>
+            <a className='btn-ghost btn text-xl normal-case'>Pokedex</a>
+          </div>
+          <PokemonTypeSelection
+            selectedType={selectedType}
+            selectType={selectType}
+            types={types}
+          />
         </div>
-        <PokemonTypeSelection
-          selectedType={selectedType}
-          selectType={selectType}
-          types={types}
-        />
-      </div>
 
-      {!loading ? (
-        <FilterablePokedexTable
-          selectedType={selectedType}
-          pokemonList={pokemons}
-          loading={loading}
-        />
-      ) : (
-        <PuffLoader
-          color={'#fff'}
-          cssOverride={styleOverrides}
-          loading={loading}
-        />
-      )}
+        {!loading ? (
+          <FilterablePokedexTable
+            selectedType={selectedType}
+            pokemonList={pokemons}
+            loading={loading}
+          />
+        ) : (
+          <PuffLoader
+            color={'#fff'}
+            cssOverride={styleOverrides}
+            loading={loading}
+          />
+        )}
+
+        {/* <div className='btn-group grid grid-cols-4'>
+          <button className='btn-outline btn'>First</button>
+          <button className='btn-outline btn'>Previous</button>
+          <button className='btn-outline btn'>Next</button>
+          <button className='btn-outline btn'>Last</button>
+        </div> */}
+      </div>
     </>
   );
 }
