@@ -1,4 +1,4 @@
-import { Pokemon } from '../App';
+import type { Pokemon } from '../types';
 
 type PokemonRowProps = Pokemon;
 
@@ -13,7 +13,11 @@ const PokemonRow = ({ id, name, types, sprite }: PokemonRowProps) => {
         ))}
       </td>
       <td>
-        <img className='mx-auto' src={sprite} alt={`${name}-img`} />
+        <img
+          className='mx-auto'
+          src={sprite}
+          alt={`${name}-img`}
+        />
       </td>
     </tr>
   );

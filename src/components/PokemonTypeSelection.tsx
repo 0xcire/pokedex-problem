@@ -1,22 +1,19 @@
-type PokemonTypeSelectionProps = {
-  selectedType: string | undefined;
-  selectType: (type: string | undefined) => void;
-  types: Array<string> | undefined;
-};
+import { usePokemonTypes } from '../hooks/usePokemonTypes';
+import { useFilteredStore } from '../store/store';
 
-const PokemonTypeSelection = ({
-  //   selectedType,
-  selectType,
-  types,
-}: PokemonTypeSelectionProps) => {
+const PokemonTypeSelection = () => {
+  const { types, error } = usePokemonTypes();
+  const { setSelectedType } = useFilteredStore();
+
+  if (error) {
+    return <p>error</p>;
+  }
+
   return (
     <select
       className='select-primary select w-6/12 lg:w-full lg:max-w-xs'
-      onChange={(e) => selectType(e.target.value)}
+      onChange={(e) => setSelectedType(e.target.value)}
     >
-      <option disabled selected>
-        Type?
-      </option>
       {types?.map((type) => (
         <option key={type}>{type}</option>
       ))}

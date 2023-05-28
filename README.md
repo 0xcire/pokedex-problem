@@ -37,15 +37,20 @@ each 'iteration' can be found in commit history via 'X ITERATION'
 
 - [x] 1st iteration - useEffect, useState, prop drilling ( probably solution I'd use in constraints of an actual interview)
 
-[] 2nd iteration - custom hook / context api / Suspense
+[x] 2nd iteration - custom hooks / Zustand
 
-[] 3rd iteration - Redux Toolkit / RTK Query or React Query
+- Was going to use Context here but Zustand makes more sense, especially going into final iteration
+- Will likely use Context for Theme Switching, however.
+- Liked idea of Suspense but since future of api is fragile will just implement next with a data fetching library that supports it
+
+[] 3rd iteration - SWR
+
+Just learned about SWR as another option alongside RTK Query, and React Query and want to learn.
 
 - Theme Switch
 - Pagination
 - Animations
 - Error Handling / Loader Skeletons
-- try implementing layout animations for deleting rows / etc as seen from Sam Selikoff's YT channel
 
 ## note
 
