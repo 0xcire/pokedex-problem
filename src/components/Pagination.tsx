@@ -5,7 +5,7 @@
 
 const Pagination = () => {
   return (
-    <div className='btn-group mx-auto'>
+    <div className='btn-group mx-auto p-1'>
       <button className='btn'>1</button>
       <button className='btn-disabled btn hidden'>...</button>
       <button className='btn-active btn'>2</button>
