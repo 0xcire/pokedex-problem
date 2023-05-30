@@ -3,7 +3,7 @@ import { useFilteredStore } from '../store/store';
 
 const PokemonTypeSelection = () => {
   const { types, error } = usePokemonTypes();
-  const { setSelectedType } = useFilteredStore();
+  const setSelectedType = useFilteredStore((state) => state.setSelectedType);
 
   if (error) {
     return <p>error</p>;

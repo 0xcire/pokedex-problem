@@ -1,3 +1,4 @@
+import ThemeToggle from './ThemeToggle';
 import PokemonTypeSelection from './PokemonTypeSelection';
 
 const Navbar = () => {
@@ -6,6 +7,7 @@ const Navbar = () => {
       <div className='flex-1'>
         <a className='btn-ghost btn text-xl normal-case'>Pokedex</a>
       </div>
+      <ThemeToggle />
       <PokemonTypeSelection />
     </div>
   );

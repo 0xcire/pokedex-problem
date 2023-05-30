@@ -1,4 +1,4 @@
-import { useFilteredStore } from '../store/store';
+import { useFilteredStore, useThemeStore } from '../store/store';
 import { usePokemon } from '../hooks/usePokemon';
 
 import PokemonRow from './PokemonRow';
@@ -13,7 +13,8 @@ const styleOverrides = {
 
 const FilterablePokedexTable = () => {
   const { pokemon, error, loading } = usePokemon();
-  const { selectedType } = useFilteredStore();
+  const theme = useThemeStore((state) => state.theme);
+  const selectedType = useFilteredStore((state) => state.selectedType);
 
   const filteredPokemon = pokemon.filter((pokemon) => {
     return selectedType === 'all'
@@ -28,7 +29,7 @@ const FilterablePokedexTable = () => {
   if (loading) {
     return (
       <PuffLoader
-        color={'#fff'}
+        color={theme === 'business' ? '#fff' : '#000'}
         cssOverride={styleOverrides}
         loading={loading}
       />
