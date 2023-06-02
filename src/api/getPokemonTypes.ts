@@ -4,14 +4,21 @@ export const getPokemonTypes = async () => {
   let pokemonTypes;
 
   try {
-    const response = await fetch('https://pokeapi.co/api/v2/type/');
+    const res = await fetch('https://pokeapi.co/api/v2/type/');
 
-    const data = await response.json();
+    // if (!res.ok) {
+    //   const error = new Error('an error occurred while fetching pokemon types');
+    //   error.info = await res.json();
+    //   error.status = res.status;
+    //   throw error;
+    // }
 
-    pokemonTypes = data.results.map((type: TypeData) => type.name);
+    const data = await res.json();
+
+    pokemonTypes = ['all', ...data.results.map((type: TypeData) => type.name)];
   } catch (error) {
     if (error instanceof Error) {
-      console.error(error);
+      throw error.message;
     }
   }
 
