@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-import { type themes, useThemeStore } from '../store/store';
-
 import { Sun, Moon } from '@phosphor-icons/react';
+
+import { type themes, useThemeStore } from '../store/store';
 
 const ThemeToggle = () => {
   const theme = useThemeStore((state) => state.theme);

@@ -1,5 +1,4 @@
 import ThemeToggle from './ThemeToggle';
-// import PokemonTypeSelection from './PokemonTypeSelection';
 
 const Navbar = () => {
   return (

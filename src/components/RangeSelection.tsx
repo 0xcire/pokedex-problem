@@ -1,30 +1,32 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { usePaginationStore } from '../store/store';
+import { useElementValue } from '../hooks/useElementValue';
+
+type RangeOptions = 20 | 40 | 60 | 80 | 100;
+
+const ranges: Array<RangeOptions> = [20, 40, 60, 80, 100];
 
 const RangeSelection = () => {
-  const selectRef = useRef<HTMLSelectElement>(null);
+  const resultsSelectRef = useRef<HTMLSelectElement>(null);
   const resultsPerPage = usePaginationStore((state) => state.resultsPerPage);
   const setResultsPerPage = usePaginationStore(
     (state) => state.setResultsPerPage
   );
 
-  useEffect(() => {
-    if (selectRef.current) {
-      selectRef.current.value = resultsPerPage.toString();
-    }
-  });
+  useElementValue<HTMLSelectElement>(
+    resultsSelectRef,
+    resultsPerPage.toString()
+  );
 
   return (
     <select
-      className='select w-8/12 max-w-xs bg-transparent'
+      className='select w-full max-w-xs bg-inherit'
       onChange={(e) => setResultsPerPage(Number(e.currentTarget.value))}
-      ref={selectRef}
+      ref={resultsSelectRef}
     >
-      <option>20</option>
-      <option>40</option>
-      <option>60</option>
-      <option>80</option>
-      <option>100</option>
+      {ranges.map((range) => (
+        <option key={`${range}-option`}>{range}</option>
+      ))}
     </select>
   );
 };

@@ -51,7 +51,7 @@ type PaginationStore = {
 export const usePaginationStore = create<PaginationStore>((set) => ({
   currentPage: 1,
   resultsPerPage: 20,
-  resultsOffset: 20,
+  resultsOffset: 0,
   resultsTotal: 1281,
   setCurrentPage: (page: number) =>
     set(() => ({

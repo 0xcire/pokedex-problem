@@ -2,7 +2,11 @@
 export default {
   content: ['./src/**/*.{html,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'md-phone': '410px'
+      }
+    },
   },
   plugins: [require('daisyui')],
   daisyui: {

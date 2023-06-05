@@ -1,10 +1,10 @@
 import type { TypeData } from '../types';
 
-export const getPokemonTypes = async () => {
+export const getPokemonTypes = async (params: string) => {
   let pokemonTypes;
 
   try {
-    const res = await fetch('https://pokeapi.co/api/v2/type/');
+    const res = await fetch(`https://pokeapi.co${params}`);
 
     // if (!res.ok) {
     //   const error = new Error('an error occurred while fetching pokemon types');
