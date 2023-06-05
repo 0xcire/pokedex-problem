@@ -1,11 +1,9 @@
 import type { FetchedPokemon, Result } from '../types';
 
-export const getPokemon = async (signal: AbortSignal) => {
+export const getPokemon = async (params: string) => {
   const requests: Array<Promise<FetchedPokemon>> = [];
 
-  await fetch('https://pokeapi.co/api/v2/pokemon/?limit=20&offset=0', {
-    signal,
-  })
+  await fetch(`https://pokeapi.co/api/v2/${params}`)
     .then((res) => res.json())
     .then((data) => {
       data.results.forEach((result: Result) => {
@@ -13,11 +11,9 @@ export const getPokemon = async (signal: AbortSignal) => {
       });
     })
     .catch((error) => {
-      if (error instanceof DOMException && error.name === 'AbortError') {
-        console.error('getPokemonTypes aborted');
-        return;
+      if (error instanceof Error) {
+        throw error.message;
       }
-      console.error(error);
     });
 
   // ensures same order of pokemon when refetching for 'metadata' just how responses are structured
@@ -33,12 +29,10 @@ export const getPokemon = async (signal: AbortSignal) => {
       });
     })
     .catch((error) => {
-      console.error(error);
+      if (error instanceof Error) {
+        throw error.message;
+      }
     });
 
   return pokemon;
 };
-
-// const extractPokemon = () => {
-//   return;
-// };

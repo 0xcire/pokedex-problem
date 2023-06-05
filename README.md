@@ -6,7 +6,7 @@ From the provided interview [guide](https://t3-tools.notion.site/Technical-Inter
 
 Having gained familiarity with TypeScript / React, and building Rest APIs in Express, using this to demonstrate ability to fetch data client side, render, and manage state in a react context.
 
-Using Daisy UI for quick prototyping, although, not best for accessibility (from what I remember)
+Using Daisy UI for quick prototyping, although, not best for accessibility (from what I remember --- keyboard accessibility definitely rough)
 
 ## Requirements
 

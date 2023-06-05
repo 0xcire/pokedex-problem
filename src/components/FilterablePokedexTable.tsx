@@ -1,39 +1,38 @@
-import { useFilteredStore, useThemeStore } from '../store/store';
+import { useFilteredStore, usePaginationStore } from '../store/store';
 import { usePokemon } from '../hooks/usePokemon';
 
+import RangeSelection from './RangeSelection';
+import PokemonTypeSelection from './PokemonTypeSelection';
 import PokemonRow from './PokemonRow';
 import NotFound from './NotFound';
-import Pagination from './Pagination';
-
-import { PuffLoader } from 'react-spinners';
-
-const styleOverrides = {
-  margin: '35% auto 0 auto',
-};
+import Loader from './Loader';
 
 const FilterablePokedexTable = () => {
-  const { pokemon, error, loading } = usePokemon();
-  const theme = useThemeStore((state) => state.theme);
   const selectedType = useFilteredStore((state) => state.selectedType);
+  const currentPage = usePaginationStore((state) => state.currentPage);
+  const resultsPerPage = usePaginationStore((state) => state.resultsPerPage);
 
-  const filteredPokemon = pokemon.filter((pokemon) => {
+  //TODO: handle in store
+  const offset = currentPage * resultsPerPage - resultsPerPage;
+
+  const {
+    data: pokemon,
+    error,
+    isLoading,
+  } = usePokemon(resultsPerPage, offset);
+
+  const filteredPokemon = pokemon?.filter((pokemon) => {
     return selectedType === 'all'
       ? pokemon
       : pokemon.types.includes(selectedType);
   });
 
   if (error) {
-    return <p>error</p>;
+    return <p>{error}</p>;
   }
 
-  if (loading) {
-    return (
-      <PuffLoader
-        color={theme === 'business' ? '#fff' : '#000'}
-        cssOverride={styleOverrides}
-        loading={loading}
-      />
-    );
+  if (isLoading) {
+    return <Loader isLoading={isLoading} />;
   }
 
   return (
@@ -42,21 +41,25 @@ const FilterablePokedexTable = () => {
         <table className='table w-full'>
           <thead className='sticky top-0 z-20 text-center'>
             <tr>
-              <th>#</th>
+              <th>
+                <RangeSelection />
+              </th>
               <th>Name</th>
-              <th>Type</th>
+              <th>
+                <PokemonTypeSelection />
+              </th>
               <th>Image</th>
             </tr>
           </thead>
           <tbody className='text-center'>
-            {filteredPokemon.length > 0 ? (
-              filteredPokemon.map((pokemon) => (
+            {filteredPokemon?.length ?? 0 > 0 ? (
+              filteredPokemon?.map(({ id, name, types, sprite }) => (
                 <PokemonRow
-                  key={`${pokemon.id}-${pokemon.name}`}
-                  id={pokemon.id}
-                  name={pokemon.name}
-                  types={pokemon.types}
-                  sprite={pokemon.sprite}
+                  key={`${id}-${name}`}
+                  id={id}
+                  name={name}
+                  types={types}
+                  sprite={sprite}
                 />
               ))
             ) : (
@@ -65,8 +68,6 @@ const FilterablePokedexTable = () => {
           </tbody>
         </table>
       </div>
-      {/* not functional atm */}
-      <Pagination />
     </>
   );
 };

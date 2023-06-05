@@ -1,14 +1,15 @@
 import Navbar from './components/Navbar';
 import FilterablePokedexTable from './components/FilterablePokedexTable';
+import Pagination from './components/Pagination';
 
 import './App.css';
-// max pokemon = 1280
 
 function App() {
   return (
-    <div className='flex h-screen flex-col 2xl:mx-auto 2xl:w-7/12'>
+    <div className='flex h-screen flex-col xl:mx-auto xl:w-7/12'>
       <Navbar />
       <FilterablePokedexTable />
+      <Pagination />
     </div>
   );
 }
