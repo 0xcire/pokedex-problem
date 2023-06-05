@@ -1,8 +1,8 @@
-import clsx from 'clsx';
-
 import { usePaginationStore } from '../store/store';
 
 import { usePaginate } from '../hooks/usePagination';
+
+import PageBtn from './PageBtn';
 
 const Pagination = () => {
   const currentPage = usePaginationStore((state) => state.currentPage);
@@ -14,64 +14,51 @@ const Pagination = () => {
 
   const paginationRange = usePaginate(currentPage, totalPages);
 
-  // const start = currentPage * resultsPerPage - resultsPerPage + 1;
-  // const end = currentPage * resultsPerPage;
+  const start = currentPage * resultsPerPage - resultsPerPage + 1;
+  const end = currentPage * resultsPerPage;
 
-  const onFirstPage = currentPage === 1 ? true : false;
-  const onLastPage = currentPage === totalPages ? true : false;
+  const onFirstPage = currentPage === 1;
+  const onLastPage = currentPage === totalPages;
 
   return (
-    <div className='flex items-center justify-between py-2'>
-      {/* <div className='flex flex-col'>
+    <div className='mx-auto flex flex-col items-start justify-between px-2 py-2 md:flex-row md:items-center'>
+      <div className='flex flex-col'>
         <p className='mr-4 text-sm'>
           # {start} - {end}
         </p>
-      </div> */}
+      </div>
 
-      <div className='join mx-auto'>
-        <button
-          className={clsx(
-            'join-item btn-sm btn md-phone:btn-md',
-            onFirstPage && 'btn-disabled'
-          )}
+      <div className='join mx-0'>
+        <PageBtn
+          value={'<'}
+          isDisabled={onFirstPage}
           onClick={() => setCurrentPage(currentPage - 1)}
-        >
-          {'<'}
-        </button>
-        {paginationRange.map((pageIndex, index) => {
+        />
+        {paginationRange.map((pageIndex) => {
           if (pageIndex === 'dots') {
             return (
-              <button
-                key={`dots-${index}`}
-                className='join-item btn-disabled btn-sm btn md-phone:btn-md'
-              >
-                ...
-              </button>
+              <PageBtn
+                value={pageIndex}
+                isDots={true}
+              />
             );
           }
 
           return (
-            <button
-              key={`paginate-${pageIndex}`}
-              className={clsx(
-                'join-item btn-sm btn md-phone:btn-md',
-                pageIndex === currentPage && 'btn-active'
-              )}
-              onClick={(e) => setCurrentPage(Number(e.currentTarget.innerText))}
-            >
-              {pageIndex}
-            </button>
+            <PageBtn
+              value={pageIndex}
+              isActive={pageIndex === currentPage}
+              onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+                setCurrentPage(Number(e.currentTarget.innerText))
+              }
+            />
           );
         })}
-        <button
-          className={clsx(
-            'btn-sm btn md-phone:btn-md',
-            onLastPage && 'btn-disabled'
-          )}
+        <PageBtn
+          value={'>'}
+          isDisabled={onLastPage}
           onClick={() => setCurrentPage(currentPage + 1)}
-        >
-          {'>'}
-        </button>
+        />
       </div>
     </div>
   );
