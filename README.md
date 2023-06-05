@@ -47,7 +47,7 @@ each 'iteration' can be found in commit history via 'X ITERATION'
 Just learned about SWR as another option alongside RTK Query, and React Query and want to learn.
 
 - [x] Theme Switch
-- Pagination
+- [x] Pagination
 - Animations
 - Error Handling / Loader Skeletons
 
