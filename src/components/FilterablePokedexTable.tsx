@@ -32,13 +32,13 @@ const FilterablePokedexTable = () => {
   }
 
   if (isLoading) {
-    return <Loader isLoading={isLoading} />;
+    return <Loader />;
   }
 
   return (
     <>
-      <div className='flex-grow overflow-x-auto overflow-y-scroll'>
-        <table className='table w-full'>
+      <div className='flex-1 overflow-x-auto overflow-y-scroll'>
+        <table className='table-pin-rows table-xs sm:table-sm md:table-md lg:table-lg table'>
           <thead className='sticky top-0 z-20 text-center'>
             <tr>
               <th>

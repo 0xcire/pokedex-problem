@@ -22,7 +22,7 @@ const PokemonTypeSelection = () => {
 
   return (
     <select
-      className='select w-full bg-inherit lg:w-full lg:max-w-xs'
+      className='select w-full lg:w-full lg:max-w-xs'
       onChange={(e) => setSelectedType(e.target.value)}
       ref={typeSelectRef}
     >

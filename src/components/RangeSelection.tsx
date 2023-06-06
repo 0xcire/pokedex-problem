@@ -20,7 +20,7 @@ const RangeSelection = () => {
 
   return (
     <select
-      className='select w-full max-w-xs bg-inherit'
+      className='select w-full max-w-xs'
       onChange={(e) => setResultsPerPage(Number(e.currentTarget.value))}
       ref={resultsSelectRef}
     >
