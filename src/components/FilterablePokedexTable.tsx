@@ -1,4 +1,4 @@
-import { useFilteredStore, usePaginationStore } from '../store/store';
+import { useTableStore } from '../store/store';
 import { usePokemon } from '../hooks/usePokemon';
 
 import RangeSelection from './RangeSelection';
@@ -8,12 +8,9 @@ import NotFound from './NotFound';
 import Loader from './Loader';
 
 const FilterablePokedexTable = () => {
-  const selectedType = useFilteredStore((state) => state.selectedType);
-  const currentPage = usePaginationStore((state) => state.currentPage);
-  const resultsPerPage = usePaginationStore((state) => state.resultsPerPage);
-
-  //TODO: handle in store
-  const offset = currentPage * resultsPerPage - resultsPerPage;
+  const selectedType = useTableStore((state) => state.selectedType);
+  const resultsPerPage = useTableStore((state) => state.resultsPerPage);
+  const offset = useTableStore((state) => state.resultsOffset);
 
   const {
     data: pokemon,
@@ -38,7 +35,7 @@ const FilterablePokedexTable = () => {
   return (
     <>
       <div className='flex-1 overflow-x-auto overflow-y-scroll'>
-        <table className='table-pin-rows table-xs sm:table-sm md:table-md lg:table-lg table'>
+        <table className='table-pin-rows table-xs table sm:table-sm md:table-md lg:table-lg'>
           <thead className='sticky top-0 z-20 text-center'>
             <tr>
               <th>
