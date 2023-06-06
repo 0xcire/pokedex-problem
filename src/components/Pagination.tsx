@@ -1,14 +1,14 @@
-import { usePaginationStore } from '../store/store';
+import { useTableStore } from '../store/store';
 
 import { usePaginate } from '../hooks/usePagination';
 
 import PageBtn from './PageBtn';
 
 const Pagination = () => {
-  const currentPage = usePaginationStore((state) => state.currentPage);
-  const setCurrentPage = usePaginationStore((state) => state.setCurrentPage);
-  const resultsPerPage = usePaginationStore((state) => state.resultsPerPage);
-  const resultsTotal = usePaginationStore((state) => state.resultsTotal);
+  const currentPage = useTableStore((state) => state.currentPage);
+  const setCurrentPage = useTableStore((state) => state.setCurrentPage);
+  const resultsPerPage = useTableStore((state) => state.resultsPerPage);
+  const resultsTotal = useTableStore((state) => state.resultsTotal);
 
   const totalPages = Math.ceil(resultsTotal / resultsPerPage);
 

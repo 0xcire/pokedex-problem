@@ -1,5 +1,7 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
+
+import hashStorage from './hash-storage';
 
 export type themes = 'business' | 'corporate';
 
@@ -20,49 +22,43 @@ export const useThemeStore = create<ThemeStore>()(
   )
 );
 
-type FilteredStore = {
+type TableState = {
   selectedType: string;
-  setSelectedType: (type: string) => void;
-};
-
-export const useFilteredStore = create<FilteredStore>((set) => ({
-  selectedType: 'all',
-  setSelectedType: (type: string) => set(() => ({ selectedType: type })),
-}));
-
-type PaginationStore = {
   currentPage: number;
   resultsPerPage: number;
   resultsOffset: number;
   resultsTotal: number;
-  setCurrentPage: (page: number) => void;
-  setResultsPerPage: (results: number) => void;
-  setPageOffset: (offset: number) => void;
 };
 
-// type PaginationState = {
+type TableActions = {
+  setSelectedType: (type: string) => void;
+  setCurrentPage: (page: number) => void;
+  setResultsPerPage: (results: number) => void;
+};
 
-// }
-
-// type PaginationActions = {
-
-// }
-
-export const usePaginationStore = create<PaginationStore>((set) => ({
-  currentPage: 1,
-  resultsPerPage: 20,
-  resultsOffset: 0,
-  resultsTotal: 1281,
-  setCurrentPage: (page: number) =>
-    set(() => ({
-      currentPage: page,
-    })),
-  setResultsPerPage: (results: number) =>
-    set(() => ({ resultsPerPage: results })),
-  // TODO: reimplement, probably shouldnt be computed in FilteredTable component
-  setPageOffset: () =>
-    set((state) => ({
-      resultsOffset:
-        state.resultsPerPage * state.currentPage - state.resultsPerPage,
-    })),
-}));
+export const useTableStore = create<TableState & TableActions>()(
+  persist(
+    (set) => ({
+      selectedType: 'all',
+      currentPage: 1,
+      resultsPerPage: 20,
+      resultsOffset: 0,
+      resultsTotal: 1281,
+      setSelectedType: (type: string) => set(() => ({ selectedType: type })),
+      setCurrentPage: (page: number) =>
+        set((state) => ({
+          currentPage: page,
+          resultsOffset: (page - 1) * state.resultsPerPage,
+        })),
+      setResultsPerPage: (results: number) =>
+        set((state) => ({
+          resultsPerPage: results,
+          resultsOffset: (state.currentPage - 1) * results,
+        })),
+    }),
+    {
+      name: 'table-params',
+      storage: createJSONStorage(() => hashStorage),
+    }
+  )
+);
