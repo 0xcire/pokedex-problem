@@ -34,10 +34,11 @@ const Pagination = () => {
           isDisabled={onFirstPage}
           onClick={() => setCurrentPage(currentPage - 1)}
         />
-        {paginationRange.map((pageIndex) => {
+        {paginationRange.map((pageIndex, index) => {
           if (pageIndex === 'dots') {
             return (
               <PageBtn
+                key={`${pageIndex}${index}-btn`}
                 value={pageIndex}
                 isDots={true}
               />
@@ -46,6 +47,7 @@ const Pagination = () => {
 
           return (
             <PageBtn
+              key={`${pageIndex}-btn`}
               value={pageIndex}
               isActive={pageIndex === currentPage}
               onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
