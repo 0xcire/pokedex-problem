@@ -28,7 +28,7 @@ const Pagination = () => {
         </p>
       </div>
 
-      <div className='join mx-0'>
+      <div className='join mx-0 mt-2 md:mt-0'>
         <PageBtn
           value={'<'}
           isDisabled={onFirstPage}
