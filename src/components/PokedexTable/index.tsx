@@ -1,13 +1,13 @@
-import { useTableStore } from '../store/store';
-import { usePokemon } from '../hooks/usePokemon';
+import { useTableStore } from '../../store/store';
+import { usePokemon } from '../../hooks/usePokemon';
 
 import RangeSelection from './RangeSelection';
-import PokemonTypeSelection from './PokemonTypeSelection';
+import PokemonTypeSelection from './TypeSelection';
 import PokemonRow from './PokemonRow';
 import NotFound from './NotFound';
-import Loader from './Loader';
+import Loader from '../Loader';
 
-const FilterablePokedexTable = () => {
+const PokedexTable = () => {
   const selectedType = useTableStore((state) => state.selectedType);
   const resultsPerPage = useTableStore((state) => state.resultsPerPage);
   const offset = useTableStore((state) => state.resultsOffset);
@@ -25,7 +25,7 @@ const FilterablePokedexTable = () => {
   });
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className='flex-grow'>{error}</p>;
   }
 
   if (isLoading) {
@@ -69,4 +69,4 @@ const FilterablePokedexTable = () => {
   );
 };
 
-export default FilterablePokedexTable;
+export default PokedexTable;

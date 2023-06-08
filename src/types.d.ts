@@ -3,7 +3,7 @@ export type TypeData = {
   url: string;
 };
 
-type PokemonTypes = {
+export type PokemonTypes = {
   slot: number;
   type: TypeData;
 };

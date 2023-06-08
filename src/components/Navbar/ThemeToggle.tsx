@@ -1,16 +1,13 @@
-import { useEffect } from 'react';
-
 import { Sun, Moon } from '@phosphor-icons/react';
 
-import { type themes, useThemeStore } from '../store/store';
+import { type themes, useThemeStore } from '../../store/store';
+import useAppTheme from '../../hooks/useAppTheme';
 
 const ThemeToggle = () => {
   const theme = useThemeStore((state) => state.theme);
   const setTheme = useThemeStore((state) => state.setTheme);
 
-  useEffect(() => {
-    document.querySelector('html')?.setAttribute('data-theme', theme);
-  }, [theme]);
+  useAppTheme(theme);
 
   return (
     <button

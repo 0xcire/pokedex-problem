@@ -1,8 +1,6 @@
 import type { TypeData } from '../types';
 
 export const getPokemonTypes = async (params: string) => {
-  let pokemonTypes;
-
   try {
     const res = await fetch(`https://pokeapi.co/${params}`);
 
@@ -12,12 +10,16 @@ export const getPokemonTypes = async (params: string) => {
     }
 
     const data = await res.json();
-    pokemonTypes = ['all', ...data.results.map((type: TypeData) => type.name)];
+    const pokemonTypes = [
+      'all',
+      ...data.results.map((type: TypeData) => type.name),
+    ];
+
+    return pokemonTypes;
+    //
   } catch (error) {
     if (error instanceof Error) {
       throw error.message;
     }
   }
-
-  return pokemonTypes;
 };

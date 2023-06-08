@@ -1,4 +1,4 @@
-import type { Pokemon } from '../types';
+import type { Pokemon } from '../../types';
 
 type PokemonRowProps = Pokemon;
 
