@@ -1,10 +1,16 @@
+import { motion } from 'framer-motion';
+
 import type { Pokemon } from '../../types';
 
 type PokemonRowProps = Pokemon;
 
 const PokemonRow = ({ id, name, types, sprite }: PokemonRowProps) => {
   return (
-    <tr>
+    <motion.tr
+      layout
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
       <th>{id}</th>
       <td>{name}</td>
       <td>
@@ -19,7 +25,7 @@ const PokemonRow = ({ id, name, types, sprite }: PokemonRowProps) => {
           alt={`${name}-img`}
         />
       </td>
-    </tr>
+    </motion.tr>
   );
 };
 

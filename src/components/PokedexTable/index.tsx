@@ -48,6 +48,7 @@ const PokedexTable = () => {
               <th>Image</th>
             </tr>
           </thead>
+
           <tbody className='text-center'>
             {filteredPokemon?.length ?? 0 > 0 ? (
               filteredPokemon?.map(({ id, name, types, sprite }) => (
