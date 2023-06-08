@@ -18,7 +18,7 @@ const PageBtn = ({
   return (
     <button
       className={clsx(
-        'join-item btn-sm btn md-phone:btn-md',
+        'btn-sm join-item btn md-phone:btn-md',
         (isDots || isDisabled) && 'btn-disabled',
         isActive && 'btn-active'
       )}

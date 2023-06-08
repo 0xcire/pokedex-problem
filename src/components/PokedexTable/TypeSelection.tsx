@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 
-import { usePokemonTypes } from '../hooks/usePokemonTypes';
-import { useElementValue } from '../hooks/useElementValue';
-import { useTableStore } from '../store/store';
+import { usePokemonTypes } from '../../hooks/usePokemonTypes';
+import { useElementValue } from '../../hooks/useElementValue';
+import { useTableStore } from '../../store/store';
 
 const PokemonTypeSelection = () => {
   const typeSelectRef = useRef<HTMLSelectElement>(null);

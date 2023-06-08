@@ -1,6 +1,5 @@
 import { useEffect, RefObject } from 'react';
 
-// TODO: HTMLElement does not ensure value exists. is this best solution?
 type HTMLElementWithValue = HTMLElement & { value: unknown };
 
 export function useElementValue<T extends HTMLElementWithValue>(

@@ -1,6 +1,6 @@
-import { useTableStore } from '../store/store';
+import { useTableStore } from '../../store/store';
 
-import { usePaginate } from '../hooks/usePagination';
+import { usePaginate } from '../../hooks/usePagination';
 
 import PageBtn from './PageBtn';
 

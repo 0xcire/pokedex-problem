@@ -8,18 +8,21 @@ const hashStorage: StateStorage = {
     const storedValue = searchParams.get(key) ?? '';
     const storedValueJSON = JSON.parse(JSON.parse(storedValue));
 
+    const { type, page, limit, offset } = storedValueJSON.state;
+
     const storedParameters = JSON.stringify({
       state: {
-        selectedType: storedValueJSON.state.type,
-        currentPage: storedValueJSON.state.page,
-        resultsPerPage: storedValueJSON.state.limit,
-        resultsOffset: storedValueJSON.state.offset,
+        selectedType: type,
+        currentPage: page,
+        resultsPerPage: limit,
+        resultsOffset: offset,
       },
     });
+
     return storedParameters;
   },
   setItem: (key, newValue): void => {
-    const state = JSON.parse(newValue).state;
+    const { state } = JSON.parse(newValue);
 
     const parametizedValues = JSON.stringify({
       state: {

@@ -1,6 +1,6 @@
 import { useRef } from 'react';
-import { useTableStore } from '../store/store';
-import { useElementValue } from '../hooks/useElementValue';
+import { useTableStore } from '../../store/store';
+import { useElementValue } from '../../hooks/useElementValue';
 
 type RangeOptions = 20 | 40 | 60 | 80 | 100;
 

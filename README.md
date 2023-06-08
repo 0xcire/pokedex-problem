@@ -42,14 +42,17 @@ each 'iteration' can be found in commit history via 'X ITERATION'
 - Was going to use Context here but Zustand makes more sense, especially going into final iteration
 - Liked idea of Suspense but since future of api is fragile will just implement next with a data fetching library that supports it
 
-[] 3rd iteration - SWR
+[x] 3rd iteration - SWR
 
 Just learned about SWR as another option alongside RTK Query, and React Query and want to learn.
 
+- Ended up not using Suspense.
+- Also ended up not using Context API, had originally written some localStorage wrappers for themeing but as I was learning Zustand, ran into their persist API that made more sense to use.
+
 - [x] Theme Switch
 - [x] Pagination
-- Animations
-- Error Handling / Loader Skeletons
+- [] Animations
+- [x] Error Handling
 
 ## note
 
