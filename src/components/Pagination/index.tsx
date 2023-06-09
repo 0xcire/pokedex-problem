@@ -10,12 +10,21 @@ const Pagination = () => {
   const resultsPerPage = useTableStore((state) => state.resultsPerPage);
   const resultsTotal = useTableStore((state) => state.resultsTotal);
 
+  const setResultsOffset = useTableStore((state) => state.setResultsOffset);
+
   const totalPages = Math.ceil(resultsTotal / resultsPerPage);
 
   const paginationRange = usePaginate(currentPage, totalPages);
 
-  const start = currentPage * resultsPerPage - resultsPerPage + 1;
-  const end = currentPage * resultsPerPage;
+  const start =
+    currentPage * resultsPerPage - resultsPerPage + 1 > resultsTotal
+      ? resultsTotal
+      : currentPage * resultsPerPage - resultsPerPage + 1;
+
+  const end =
+    currentPage * resultsPerPage > resultsTotal
+      ? resultsTotal
+      : currentPage * resultsPerPage;
 
   const onFirstPage = currentPage === 1;
   const onLastPage = currentPage === totalPages;
@@ -32,7 +41,10 @@ const Pagination = () => {
         <PageBtn
           value={'<'}
           isDisabled={onFirstPage}
-          onClick={() => setCurrentPage(currentPage - 1)}
+          onClick={() => {
+            setCurrentPage(currentPage - 1);
+            setResultsOffset();
+          }}
         />
         {paginationRange.map((pageIndex, index) => {
           if (pageIndex === 'dots') {
@@ -50,16 +62,20 @@ const Pagination = () => {
               key={`${pageIndex}-btn`}
               value={pageIndex}
               isActive={pageIndex === currentPage}
-              onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
-                setCurrentPage(Number(e.currentTarget.innerText))
-              }
+              onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+                setCurrentPage(Number(e.currentTarget.innerText));
+                setResultsOffset();
+              }}
             />
           );
         })}
         <PageBtn
           value={'>'}
           isDisabled={onLastPage}
-          onClick={() => setCurrentPage(currentPage + 1)}
+          onClick={() => {
+            setCurrentPage(currentPage + 1);
+            setResultsOffset();
+          }}
         />
       </div>
     </div>

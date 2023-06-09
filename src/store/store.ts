@@ -33,7 +33,9 @@ type TableState = {
 type TableActions = {
   setSelectedType: (type: string) => void;
   setCurrentPage: (page: number) => void;
+  // page: number
   setResultsPerPage: (results: number) => void;
+  setResultsOffset: () => void;
 };
 
 export const useTableStore = create<TableState & TableActions>()(
@@ -45,15 +47,12 @@ export const useTableStore = create<TableState & TableActions>()(
       resultsOffset: 0,
       resultsTotal: 1281,
       setSelectedType: (type: string) => set(() => ({ selectedType: type })),
-      setCurrentPage: (page: number) =>
-        set((state) => ({
-          currentPage: page,
-          resultsOffset: (page - 1) * state.resultsPerPage,
-        })),
+      setCurrentPage: (page: number) => set(() => ({ currentPage: page })),
       setResultsPerPage: (results: number) =>
+        set(() => ({ resultsPerPage: results })),
+      setResultsOffset: () =>
         set((state) => ({
-          resultsPerPage: results,
-          resultsOffset: (state.currentPage - 1) * results,
+          resultsOffset: (state.currentPage - 1) * state.resultsPerPage,
         })),
     }),
     {
