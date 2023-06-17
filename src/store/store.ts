@@ -33,7 +33,6 @@ type TableState = {
 type TableActions = {
   setSelectedType: (type: string) => void;
   setCurrentPage: (page: number) => void;
-  // page: number
   setResultsPerPage: (results: number) => void;
   setResultsOffset: () => void;
 };

@@ -2,60 +2,73 @@
 
 Came across [this](https://www.youtube.com/watch?v=uqII0AOW1NM&) video from [Theo](https://www.youtube.com/@t3dotgg) simulating a technical interview.
 
-From the provided interview [guide](https://t3-tools.notion.site/Technical-Interview-Dan-Abramov-9aa6d8e9292e4bd1ae67b44aeeaabf88), there is [this](https://t3-tools.notion.site/Pokedex-Problem-90f9dcfff10d4418a6fad44581b1ecff) problem targeted for junior to midlevel frontend developers.
+moved original README to `./ITERATIONS.md`. View to see original requirements and how the project was built at all 3 steps.
 
-Having gained familiarity with TypeScript / React, and building Rest APIs in Express, using this to demonstrate ability to fetch data client side, render, and manage state in a react context.
+## Features
 
-Using Daisy UI for quick prototyping, although, not best for accessibility (from what I remember --- keyboard accessibility definitely rough)
+- Paginated table to view pokemon for a given table length
 
-## Requirements
+- Range options from 20 to 100 results per page
 
-```const pokemon = {
-  id: 'id',
-  name: 'Bulbasaur',
-  types: ['grass', 'fairy'],
-  spite: 'imgURL',
-};
-```
+- Dynamic pagination component that indicates total pages and updates based off total page count and current page
 
-1. Create a `<PokemonRow />` component that takes in ^ object and renders row
-2. Create a `<PokedexTable />` component that takes in array and renders all pokemon in array
-3. Create a `<PokemonTypeSelection />` component with following props:
+- persistant table state via url parameters
 
-```
-   type PokemonTypeSelectionProps = {
-   selectedType: string | undefined;
-   selectType: (type: string | undefined) => void;
-   }
-```
+- persistant cache for quick load times
 
-4. Create a `<FilterablePokedexTable />` that renders both `<PokemonTypeSelection />` and `<PokedexTable />` that displays Pokemon with selected type
+- Layout shift animations when filtering pokemon by type
 
-## plan
+- toggle dark / light theme
 
-each 'iteration' can be found in commit history via 'X ITERATION'
+## Built With
 
-- [x] 1st iteration - useEffect, useState, prop drilling ( probably solution I'd use in constraints of an actual interview)
+- Tailwind CSS / Daisy UI
+- TypeScript
+- React
+- SWR
+- Zustand
 
-- [x] 2nd iteration - custom hooks / Zustand
+## Getting Started
 
-- Was going to use Context here but Zustand makes more sense, especially going into final iteration
-- Liked idea of Suspense but since future of api is fragile will just implement next with a data fetching library that supports it
+`git clone https://github.com/0xcire/pokedex_problem.git pokedex` \
+`cd pokedex` \
+`npm install` \
+`npm run dev` 
 
-[x] 3rd iteration - SWR
+## Learning Points
 
-Just learned about SWR as another option alongside RTK Query, and React Query and want to learn.
+- Various methods of state management, data fetching methods, and their pros / cons.
+  - useEffect / useState
+  - custom hooks / context api
+  - SWR (hooks) / Zustand
 
-- Ended up not using Suspense.
-- Also ended up not using Context API, had originally written some localStorage wrappers for themeing but as I was learning Zustand, ran into their persist API that made more sense to use.
+- benefits of using library like SWR or TanStack Query
 
-- [x] Theme Switch
-- [x] Pagination
-- [] Animations
-- [x] Error Handling
+- Implementing pagination
 
-## note
+## Successes
 
-Using this as a client side only project
+- Solidifying knowledge of Tailwind, TypeScript and React
 
-App ideas make more sense in a full-stack context so just using this for practice for pure frontend reading from api, displaying data, state management and etc!
+- Learning a state management library in Zustand
+
+- Implementing SWR to improve UX - caching, load times , etc
+
+## Issues
+
+- differentiating between `return () => controller.abort()` and `return () => ignore = true` as react docs specify
+
+- Zustand being unopinionated, struggled figuring out best practices
+  - Going forward, will be implementing flux like pattern and using reducers to limit context switching between Zustand and Redux if/when necessary.
+
+- Deciding between SWR and React Query
+  - Ultimately chose SWR for this project due to not needing some features React Query offers.
+
+## Future Plans
+
+- [] make OS theme as default and dark / light as options
+- [] Modify Hash Storage function as provided by zustand to create a cleaner URL
+  - see if something like `/?limit=100?offset=100?type='fighting'` is possible
+- [] add modal / card that shows additional pokemon stats when clicked, gender, height, weight, moves ...
+- [] refactor Zustand store to follow redux patterns
+- [] add integration tests

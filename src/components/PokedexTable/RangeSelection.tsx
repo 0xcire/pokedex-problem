@@ -26,8 +26,9 @@ const RangeSelection = () => {
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       // need resultsPerPage user changes to, not prev. state value
       const resultsPerPage = Number(e.currentTarget.value);
-      setResultsPerPage(resultsPerPage);
       const totalPages = Math.ceil(resultsTotal / resultsPerPage);
+
+      setResultsPerPage(resultsPerPage);
 
       if (currentPage > totalPages) {
         setCurrentPage(totalPages);
