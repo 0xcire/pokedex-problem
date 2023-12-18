@@ -1,20 +1,20 @@
 import { useCallback, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
+import { useElementValue } from '../../hooks/useElementValue';
 
 import { useTableStore } from '../../store/store';
-import { useElementValue } from '../../hooks/useElementValue';
 
 type RangeOptions = 20 | 40 | 60 | 80 | 100;
 
 const ranges: Array<RangeOptions> = [20, 40, 60, 80, 100];
 
-const RangeSelection = () => {
+function RangeSelection() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const resultsSelectRef = useRef<HTMLSelectElement>(null);
 
-  const resultsPerPage = useTableStore((state) => state.resultsPerPage);
-  const setResultsPerPage = useTableStore((state) => state.setResultsPerPage);
-  const currentPage = useTableStore((state) => state.currentPage);
-  const setCurrentPage = useTableStore((state) => state.setCurrentPage);
-  const setResultsOffset = useTableStore((state) => state.setResultsOffset);
+  const resultsPerPage = searchParams.get('limit') ?? '20';
+  const currentPage = searchParams.get('page') ?? '1';
   const resultsTotal = useTableStore((state) => state.resultsTotal);
 
   useElementValue<HTMLSelectElement>(
@@ -24,25 +24,18 @@ const RangeSelection = () => {
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
-      // need resultsPerPage user changes to, not prev. state value
-      const resultsPerPage = Number(e.currentTarget.value);
+      const resultsPerPage = +e.currentTarget.value;
       const totalPages = Math.ceil(resultsTotal / resultsPerPage);
 
-      setResultsPerPage(resultsPerPage);
+      searchParams.set('limit', resultsPerPage.toString());
+      setSearchParams(searchParams);
 
-      if (currentPage > totalPages) {
-        setCurrentPage(totalPages);
+      if (+currentPage > totalPages) {
+        searchParams.set('page', totalPages.toString());
+        setSearchParams(searchParams);
       }
-
-      setResultsOffset();
     },
-    [
-      currentPage,
-      resultsTotal,
-      setCurrentPage,
-      setResultsOffset,
-      setResultsPerPage,
-    ]
+    [currentPage, resultsTotal, searchParams, setSearchParams]
   );
 
   return (
@@ -56,6 +49,6 @@ const RangeSelection = () => {
       ))}
     </select>
   );
-};
+}
 
 export default RangeSelection;

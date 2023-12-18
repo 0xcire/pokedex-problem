@@ -1,7 +1,5 @@
 import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
-
-import hashStorage from './hash-storage';
+import { persist } from 'zustand/middleware';
 
 export type themes = 'business' | 'corporate';
 
@@ -23,40 +21,9 @@ export const useThemeStore = create<ThemeStore>()(
 );
 
 type TableState = {
-  selectedType: string;
-  currentPage: number;
-  resultsPerPage: number;
-  resultsOffset: number;
   resultsTotal: number;
 };
 
-type TableActions = {
-  setSelectedType: (type: string) => void;
-  setCurrentPage: (page: number) => void;
-  setResultsPerPage: (results: number) => void;
-  setResultsOffset: () => void;
-};
-
-export const useTableStore = create<TableState & TableActions>()(
-  persist(
-    (set) => ({
-      selectedType: 'all',
-      currentPage: 1,
-      resultsPerPage: 20,
-      resultsOffset: 0,
-      resultsTotal: 1281,
-      setSelectedType: (type: string) => set(() => ({ selectedType: type })),
-      setCurrentPage: (page: number) => set(() => ({ currentPage: page })),
-      setResultsPerPage: (results: number) =>
-        set(() => ({ resultsPerPage: results })),
-      setResultsOffset: () =>
-        set((state) => ({
-          resultsOffset: (state.currentPage - 1) * state.resultsPerPage,
-        })),
-    }),
-    {
-      name: 'table-params',
-      storage: createJSONStorage(() => hashStorage),
-    }
-  )
-);
+export const useTableStore = create<TableState>(() => ({
+  resultsTotal: 1281,
+}));
