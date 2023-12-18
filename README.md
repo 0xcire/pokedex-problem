@@ -33,11 +33,12 @@ moved original README to `./ITERATIONS.md`. View to see original requirements an
 `git clone https://github.com/0xcire/pokedex_problem.git pokedex` \
 `cd pokedex` \
 `npm install` \
-`npm run dev` 
+`npm run dev`
 
 ## Learning Points
 
 - Various methods of state management, data fetching methods, and their pros / cons.
+
   - useEffect / useState
   - custom hooks / context api
   - SWR (hooks) / Zustand
@@ -59,6 +60,7 @@ moved original README to `./ITERATIONS.md`. View to see original requirements an
 - differentiating between `return () => controller.abort()` and `return () => ignore = true` as react docs specify
 
 - Zustand being unopinionated, struggled figuring out best practices
+
   - Going forward, will be implementing flux like pattern and using reducers to limit context switching between Zustand and Redux if/when necessary.
 
 - Deciding between SWR and React Query
@@ -68,7 +70,7 @@ moved original README to `./ITERATIONS.md`. View to see original requirements an
 
 - [] make OS theme as default and dark / light as options
 - [] Modify Hash Storage function as provided by zustand to create a cleaner URL
-  - see if something like `/?limit=100?offset=100?type='fighting'` is possible
+  - see if something like `/?&type=fighting&limit=100&offset=100` is possible
 - [] add modal / card that shows additional pokemon stats when clicked, gender, height, weight, moves ...
 - [] refactor Zustand store to follow redux patterns
 - [] add integration tests
