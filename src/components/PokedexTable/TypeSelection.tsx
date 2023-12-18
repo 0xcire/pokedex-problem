@@ -1,13 +1,14 @@
 import { useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import { usePokemonTypes } from '../../hooks/usePokemonTypes';
 import { useElementValue } from '../../hooks/useElementValue';
-import { useTableStore } from '../../store/store';
 
-const PokemonTypeSelection = () => {
+function PokemonTypeSelection() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const typeSelectRef = useRef<HTMLSelectElement>(null);
-  const selectedType = useTableStore((state) => state.selectedType);
-  const setSelectedType = useTableStore((state) => state.setSelectedType);
+  const selectedType = searchParams.get('type') ?? 'all';
   const { data: types, error } = usePokemonTypes();
 
   useElementValue<HTMLSelectElement>(typeSelectRef, selectedType);
@@ -19,7 +20,10 @@ const PokemonTypeSelection = () => {
   return (
     <select
       className='select w-full lg:w-full lg:max-w-xs'
-      onChange={(e) => setSelectedType(e.target.value)}
+      onChange={(e) => {
+        searchParams.set('type', e.target.value);
+        setSearchParams(searchParams);
+      }}
       ref={typeSelectRef}
       value={selectedType}
     >
@@ -28,6 +32,6 @@ const PokemonTypeSelection = () => {
       ))}
     </select>
   );
-};
+}
 
 export default PokemonTypeSelection;

@@ -1,4 +1,5 @@
-import { useTableStore } from '../../store/store';
+import { useSearchParams } from 'react-router-dom';
+
 import { usePokemon } from '../../hooks/usePokemon';
 
 import RangeSelection from './RangeSelection';
@@ -7,16 +8,12 @@ import PokemonRow from './PokemonRow';
 import NotFound from './NotFound';
 import Loader from '../Loader';
 
-const PokedexTable = () => {
-  const selectedType = useTableStore((state) => state.selectedType);
-  const resultsPerPage = useTableStore((state) => state.resultsPerPage);
-  const offset = useTableStore((state) => state.resultsOffset);
+function PokedexTable() {
+  const [searchParams] = useSearchParams();
 
-  const {
-    data: pokemon,
-    error,
-    isLoading,
-  } = usePokemon(resultsPerPage, offset);
+  const selectedType = searchParams.get('type') ?? 'all';
+
+  const { data: pokemon, error, isLoading } = usePokemon();
 
   const filteredPokemon = pokemon?.filter((pokemon) => {
     return selectedType === 'all'
@@ -68,6 +65,6 @@ const PokedexTable = () => {
       </div>
     </>
   );
-};
+}
 
 export default PokedexTable;

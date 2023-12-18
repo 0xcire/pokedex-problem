@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 
 import { SWRConfig } from 'swr';
 import localStorageProvider from './lib/local-storage-provider.ts';
@@ -9,7 +10,9 @@ import App from './App.tsx';
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <SWRConfig value={{ provider: localStorageProvider }}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </SWRConfig>
   </React.StrictMode>
 );

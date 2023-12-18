@@ -1,33 +1,33 @@
-import { useTableStore } from '../../store/store';
-
+import { useSearchParams } from 'react-router-dom';
 import { usePaginate } from '../../hooks/usePagination';
+
+import { useTableStore } from '../../store/store';
 
 import PageBtn from './PageBtn';
 
-const Pagination = () => {
-  const currentPage = useTableStore((state) => state.currentPage);
-  const setCurrentPage = useTableStore((state) => state.setCurrentPage);
-  const resultsPerPage = useTableStore((state) => state.resultsPerPage);
+function Pagination() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentPage = searchParams.get('page') ?? '1';
+  const resultsPerPage = searchParams.get('limit') ?? '20';
   const resultsTotal = useTableStore((state) => state.resultsTotal);
 
-  const setResultsOffset = useTableStore((state) => state.setResultsOffset);
+  const totalPages = Math.ceil(resultsTotal / +resultsPerPage);
 
-  const totalPages = Math.ceil(resultsTotal / resultsPerPage);
-
-  const paginationRange = usePaginate(currentPage, totalPages);
+  const paginationRange = usePaginate(+currentPage, totalPages);
 
   const start =
-    currentPage * resultsPerPage - resultsPerPage + 1 > resultsTotal
+    +currentPage * +resultsPerPage - +resultsPerPage + 1 > resultsTotal
       ? resultsTotal
-      : currentPage * resultsPerPage - resultsPerPage + 1;
+      : +currentPage * +resultsPerPage - +resultsPerPage + 1;
 
   const end =
-    currentPage * resultsPerPage > resultsTotal
+    +currentPage * +resultsPerPage > resultsTotal
       ? resultsTotal
-      : currentPage * resultsPerPage;
+      : +currentPage * +resultsPerPage;
 
-  const onFirstPage = currentPage === 1;
-  const onLastPage = currentPage === totalPages;
+  const onFirstPage = +currentPage === 1;
+  const onLastPage = +currentPage === totalPages;
 
   return (
     <div className='mx-auto flex flex-col items-start justify-between px-2 py-2 md:flex-row md:items-center'>
@@ -42,8 +42,8 @@ const Pagination = () => {
           value={'<'}
           isDisabled={onFirstPage}
           onClick={() => {
-            setCurrentPage(currentPage - 1);
-            setResultsOffset();
+            searchParams.set('page', (+currentPage - 1).toString());
+            setSearchParams(searchParams);
           }}
         />
         {paginationRange.map((pageIndex, index) => {
@@ -62,9 +62,9 @@ const Pagination = () => {
               key={`${pageIndex}-btn`}
               value={pageIndex}
               isActive={pageIndex === currentPage}
-              onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                setCurrentPage(Number(e.currentTarget.innerText));
-                setResultsOffset();
+              onClick={(e) => {
+                searchParams.set('page', e.currentTarget.innerText);
+                setSearchParams(searchParams);
               }}
             />
           );
@@ -73,13 +73,13 @@ const Pagination = () => {
           value={'>'}
           isDisabled={onLastPage}
           onClick={() => {
-            setCurrentPage(currentPage + 1);
-            setResultsOffset();
+            searchParams.set('page', (+currentPage + 1).toString());
+            setSearchParams(searchParams);
           }}
         />
       </div>
     </div>
   );
-};
+}
 
 export default Pagination;
